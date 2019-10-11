@@ -8,20 +8,25 @@ from sklearn.cluster import KMeans
 import numpy as np
 import math
 from sklearn.neighbors import NearestNeighbors
-
+#this parses the data into data frame
 data = pd.DataFrame(pd.read_csv(r"2019-XTern- Work Sample Assessment Data Science-DS.csv", delimiter = ','));X = pd.DataFrame(zip(data.xcoordinate, data.ycoordinate))
+#this is where the clusters are assigned
 kmeans = KMeans(n_clusters=18); kmeans.fit(X); y_kmeans = kmeans.predict(X); data['Cluster'] = y_kmeans; needscharged = []
+#this determines whether a scooter needs charged
 for i in data.power_level:
     if int(data.power_level[i]) == 5:
         needscharged.append(False)
     else:
         needscharged.append(True)
 clusters = (pd.unique(data.Cluster)); data['Needs_Charged'] = needscharged; position = [20.19, 20.19]; time = 0;van = []
+
+
+#this calculates how long it takes to travel from point to point in hours
 def timetotravel(pt1, pt2):
     global time
     dist = math.sqrt((pt2[0]-pt1[0])**2+(pt2[1]-pt1[1])**2); addtime = dist/50; time += addtime
 
-
+#this steps from point to point in the cluster
 def getallincluster(array, pos):
     global van; global time; idx = pd.Index(array.scooter_id)
     s = idx.get_loc(pos, method='ffill'); array.sort_values(by=['ycoordinate', 'xcoordinate'], ascending= False)
@@ -30,7 +35,7 @@ def getallincluster(array, pos):
         s = i
     return array.scooter_id[(len(array.scooter_id)-1)]
 
-
+#this makes a data set of all points in the cluster
 def makecluster(cluster):
     global data
     carray= []
@@ -46,7 +51,7 @@ def makecluster(cluster):
     return df
 
 
-
+#this is just setting up the problem
 timetotravel(position, [data.xcoordinate[25667],data.ycoordinate[25667]])
 posidx = 25667
 poscluster = data.Cluster[posidx]
@@ -63,6 +68,8 @@ for i in range(0, 17):
     x = clusters[i].ycoordinate.idxmax
     toprightcorner.append([clusters[i].scooter_id[x], clusters[i].xcoordinate[x],clusters[i].ycoordinate[x]])
 
+    
+#this determines which is the best cluster to visit next 
 def getnextcluster(posidx):
     global data
     global toprightcorner
@@ -87,7 +94,7 @@ def getnextcluster(posidx):
 
 
 
-
+#this is the loop that solves the problem 
 
 pos = getallincluster(clusters[poscluster], posidx)
 while len(visited) < 17:
