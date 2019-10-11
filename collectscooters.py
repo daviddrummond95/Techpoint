@@ -9,7 +9,7 @@ import numpy as np
 import math
 from sklearn.neighbors import NearestNeighbors
 
-data = pd.DataFrame(pd.read_csv(r"database", delimiter = ','));X = pd.DataFrame(zip(data.xcoordinate, data.ycoordinate))
+data = pd.DataFrame(pd.read_csv(r"2019-XTern- Work Sample Assessment Data Science-DS.csv", delimiter = ','));X = pd.DataFrame(zip(data.xcoordinate, data.ycoordinate))
 kmeans = KMeans(n_clusters=18); kmeans.fit(X); y_kmeans = kmeans.predict(X); data['Cluster'] = y_kmeans; needscharged = []
 for i in data.power_level:
     if int(data.power_level[i]) == 5:
