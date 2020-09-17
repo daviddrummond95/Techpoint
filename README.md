@@ -1,4 +1,5 @@
 # Techpoint Data Science Report
+This was a tech challenge created to showcase the data science applicants to the prestigous Techpoint Externship. It was developed in an airport on the way to Disney World in approximately 5 hours. However, the implementation resulted in an offer from the externship program. I decided to pursue other options.
 # The Assumptions
 The first assumption I made is that the coordinates on the map were 1:1 with miles. Meaning that the start position was approximately 20 miles from the nearest scooter. The second assumption I made is that the van could instantaneously suck in the scooters and put them into charge or else that the 50 miles per hour included average load time. I also assumed there are no roads and that I could drive wherever I wanted, specifically a straight route from point to point. Lastly I assume the van has infinite power and capacity.
 # The Approach
